@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gravitation: Kepler’s Laws (Class 11 Physics)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f1ff;--ink:#1b1840;--card:#fff;--line:#d9d3ff;--acc:#6c3df4;--sun:#ff9f1c;--teal:#00a99d;--pink:#ff4d8d;--muted:#5b5790;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e0c2a;--ink:#ece9ff;--card:#1b1844;--line:#383277;--acc:#a58bff;--teal:#2fe0d0;--muted:#aaa6d8;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e0c2a;--ink:#ece9ff;--card:#1b1844;--line:#383277;--acc:#a58bff;--teal:#2fe0d0;--muted:#aaa6d8;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Nunito,system-ui,sans-serif}
+h1,h2,h3{font-family:Fredoka,system-ui,sans-serif;line-height:1.2;margin:.2em 0 .4em}
+header{background:linear-gradient(120deg,#2b1a7a,#6c3df4 55%,#ff4d8d);color:#fff;padding:28px 18px 22px;text-align:center}
+header h1{font-size:clamp(26px,5vw,42px);margin:0}header p{margin:.3em 0;opacity:.92}
+.theme{float:right;background:#ffffff33;color:#fff;border:0;border-radius:20px;padding:4px 12px;cursor:pointer;font:inherit;font-size:14px}
+nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:10px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;border-bottom:2px solid var(--line)}
+nav button{border:2px solid var(--line);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:22px;font:600 15px Nunito,sans-serif;cursor:pointer}
+nav button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+main{max-width:920px;margin:0 auto;padding:16px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:14px 18px;margin:14px 0}
+.law{border-left:8px solid var(--sun);background:linear-gradient(90deg,#ff9f1c22,transparent)}
+.law b{font-family:Fredoka,sans-serif}
+canvas{width:100%;height:auto;border-radius:14px;background:#0b0a2a;display:block;touch-action:none}
+.ctl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:10px 0}
+.ctl label{font-weight:700;font-size:15px}input[type=range]{accent-color:var(--acc);vertical-align:middle;width:150px}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:12px;padding:8px 16px;font:700 15px Nunito,sans-serif;cursor:pointer}
+.btn.alt{background:var(--teal);color:#06231f}
+.read{display:flex;gap:10px;flex-wrap:wrap}.read span{background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:4px 10px;font-weight:700;font-size:15px}
+.tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.tl button{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:8px;cursor:pointer;font:700 14px Nunito,sans-serif}
+.tl button.on{border-color:var(--pink);background:#ff4d8d22}
+table{border-collapse:collapse;width:100%;font-size:15px}td,th{border:1px solid var(--line);padding:5px 8px;text-align:center}th{background:var(--acc);color:#fff}
+.tw{overflow-x:auto}
+details{border:2px solid var(--line);border-radius:12px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:700}
+.q button.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:10px 14px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:600 16px Nunito,sans-serif;cursor:pointer}
+.q button.opt.ok{background:#1fbf6f;color:#04230f;border-color:#1fbf6f}.q button.opt.no{background:#ff5470;color:#fff;border-color:#ff5470}
+.bar{height:12px;background:var(--line);border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--sun));transition:width .4s}
+.hud{display:flex;justify-content:space-between;font-weight:700;margin:8px 0}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:15px}
+.big{font-size:56px;text-align:center}
+</style></head><body>
+<header><button class="theme" id="th">Light / Dark</button>
+<h1>🪐 Gravitation: Kepler’s Laws</h1>
+<p>Class 11 Physics · NCERT Chapter 7 (7.1–7.3) · Interactive Classroom Module</p>
+<p>Created by <b>Hrishikesh M</b> (PGT Physics)</p></header>
+<nav id="nav"></nav>
+<main>
+
+<section id="s0"><h2>7.1 Introduction: why do things fall, and how do planets move?</h2>
+<div class="card"><p>Everything thrown up comes back down. Galileo (1564–1642) showed that <b>all bodies, whatever their mass, fall towards the Earth with the same constant acceleration</b>. He rolled bodies down inclined planes to find this value, close to the modern value of g.</p>
+<p>A seemingly unrelated mystery: the stars keep fixed positions year after year, but a few bright objects, the <b>planets</b>, wander against the background of stars. How do they move?</p></div>
+<div class="card"><h3>Two models of the sky</h3>
+<p>Switch between the models. The planet drawn is Mars; the white trail shows what we would see from Earth.</p>
+<div class="ctl"><button class="btn" id="mG">Geocentric (Ptolemy)</button><button class="btn alt" id="mH">Heliocentric (Aryabhatta, Copernicus)</button></div>
+<canvas id="c0" width="640" height="360"></canvas>
+<p id="mTxt" class="read"></p></div>
+<div class="card"><h3>Timeline: tap a name</h3><div class="tl" id="tl"></div><p id="tlTxt" style="min-height:3.4em"></p></div>
+<div class="card law"><p><b>Big idea:</b> Kepler’s three laws, found from Tycho Brahe’s data, led Newton to the <b>Universal Law of Gravitation</b>.</p></div></section>
+
+<section id="s1"><h2>7.2 Kepler’s Law 1: Law of Orbits</h2>
+<div class="card law"><p><b>Statement:</b> All planets move in <b>elliptical orbits</b> with the <b>Sun situated at one of the foci</b> of the ellipse.</p></div>
+<div class="card"><p>An ellipse is drawn with a string of fixed length with its ends fixed at two points F₁ and F₂ (the <b>foci</b>) and a pencil keeping the string taut. So for any point T on it, <b>F₁T + F₂T = constant = 2a</b>. The midpoint O is the centre, PO = OA = a is the <b>semi-major axis</b>. P is the <b>perihelion</b> (closest to Sun) and A is the <b>aphelion</b> (farthest). For a circle, the two foci merge and a becomes the radius.</p>
+<p><b>Try:</b> drag the planet around the orbit, then change the shape with the slider.</p>
+<canvas id="c1" width="640" height="360"></canvas>
+<div class="ctl"><label>Flatness e: <input type="range" id="e1" min="0" max="0.85" step="0.01" value="0.5"> <b id="e1v"></b></label><label><input type="checkbox" id="p1" checked> Auto-move</label></div>
+<div class="read"><span id="d1"></span><span id="d2"></span><span id="ds"></span></div>
+<p>Notice: however you move the planet, d₁ + d₂ stays equal to 2a. Set e = 0 and the orbit becomes a circle.</p></div></section>
+
+<section id="s2"><h2>7.2 Kepler’s Law 2: Law of Areas</h2>
+<div class="card law"><p><b>Statement:</b> The line that joins any planet to the Sun sweeps <b>equal areas in equal intervals of time</b>.</p></div>
+<div class="card"><p>So a planet moves <b>slower when farther</b> from the Sun and <b>faster when nearer</b>. The sim cuts one orbit into 12 equal time intervals. Each coloured wedge is swept in the same time, so every wedge has the same area.</p>
+<canvas id="c2" width="640" height="360"></canvas>
+<div class="ctl"><label>Flatness e: <input type="range" id="e2" min="0.05" max="0.85" step="0.01" value="0.6"> <b id="e2v"></b></label><label>Speed: <input type="range" id="sp2" min="0.2" max="3" step="0.1" value="1"></label><button class="btn" id="pz2">Pause</button></div>
+<div class="read"><span id="r2"></span><span id="v2"></span><span id="a2"></span></div></div>
+<div class="card"><h3>Why? Conservation of angular momentum</h3>
+<p>In time Δt the area swept is ΔA = ½ (r × vΔt). So ΔA/Δt = ½ (r × p)/m = <b>L/2m</b>. Gravity is a <b>central force</b> (along r), so torque is zero and L is constant. Hence ΔA/Δt is constant.</p>
+<p>At perihelion and aphelion r and v are perpendicular, so m·vₚ·rₚ = m·vₐ·rₐ, i.e. <b>vₚ/vₐ = rₐ/rₚ</b>. Since rₐ &gt; rₚ, we get vₚ &gt; vₐ.</p></div></section>
+
+<section id="s3"><h2>7.2 Kepler’s Law 3: Law of Periods</h2>
+<div class="card law"><p><b>Statement:</b> The <b>square of the time period</b> of revolution of a planet is proportional to the <b>cube of the semi-major axis</b> of its orbit.</p><p style="text-align:center;font-size:22px"><b>T² ∝ a³</b> or <b>T²/a³ = constant</b></p></div>
+<div class="card"><p>Build your own planet. T is in years and a in AU (Earth’s distance, 1 AU ≈ 1.5 × 10¹¹ m). The sun-centred picture shows Mercury, Venus, Earth, Mars and your planet.</p>
+<canvas id="c3" width="640" height="360"></canvas>
+<div class="ctl"><label>Semi-major axis a: <input type="range" id="a3" min="0.3" max="5.5" step="0.1" value="2"></label><label>Time speed: <input type="range" id="t3" min="0.2" max="3" step="0.1" value="1"></label></div>
+<div class="read"><span id="o1"></span><span id="o2"></span><span id="o3"></span></div>
+<p>Double a and T becomes 2√2 ≈ 2.83 times larger, not 2 times. Far planets are slow.</p></div>
+<div class="card"><h3>Data from the textbook (Table 7.1)</h3><div class="tw"><table><tr><th>Planet</th><th>a (10¹⁰ m)</th><th>T (years)</th><th>Q = T²/a³ (10⁻³⁴ y² m⁻³)</th></tr>
+<tr><td>Mercury</td><td>5.79</td><td>0.24</td><td>2.95</td></tr><tr><td>Venus</td><td>10.8</td><td>0.615</td><td>3.00</td></tr><tr><td>Earth</td><td>15.0</td><td>1</td><td>2.96</td></tr><tr><td>Mars</td><td>22.8</td><td>1.88</td><td>2.98</td></tr><tr><td>Jupiter</td><td>77.8</td><td>11.9</td><td>3.01</td></tr><tr><td>Saturn</td><td>143</td><td>29.5</td><td>2.98</td></tr><tr><td>Uranus</td><td>287</td><td>84</td><td>2.98</td></tr><tr><td>Neptune</td><td>450</td><td>165</td><td>2.99</td></tr></table></div>
+<p>The last column is nearly the same for every planet. That is Kepler’s third law confirmed.</p></div>
+<div class="card"><h3>Newton’s connection (7.3)</h3><p>Newton reasoned that the Moon, in orbit of radius Rₘ, has a centripetal acceleration aₘ = V²/Rₘ = 4π²Rₘ/T². With T ≈ 27.3 days and Rₘ ≈ 3.84 × 10⁸ m, aₘ is much smaller than g at Earth’s surface. This led to the Universal Law of Gravitation.</p></div></section>
+
+<section id="s4"><h2>Practice Questions</h2><p>Try each on paper first, then open the solution.</p><div id="pq"></div></section>
+
+<section id="s5"><h2>🎮 Orbit Quest: Quiz</h2><div class="card q"><div class="hud"><span id="qs">Score 0</span><span id="qst">Streak 0 🔥</span><span id="qn">Q1/5</span></div><div class="bar"><i id="qb"></i></div><h3 id="qq"></h3><div id="qo"></div><p id="qf" style="min-height:3em"></p><button class="btn" id="qx" style="display:none">Next</button></div></section>
+</main>
+<footer>Based on NCERT Physics Class 11, Chapter 7: Gravitation.<br>Interactive module created by Hrishikesh M (PGT Physics)</footer>
+
+<script>
+const $=id=>document.getElementById(id),pi=Math.PI;
+const names=["Introduction","Law of Orbits","Law of Areas","Law of Periods","Practice","Quiz"];
+names.forEach((n,i)=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>go(i);$('nav').appendChild(b)});
+let cur=0;function go(i){cur=i;document.querySelectorAll('section').forEach((s,j)=>s.classList.toggle('on',i==j));[...$('nav').children].forEach((b,j)=>b.classList.toggle('on',i==j));scrollTo(0,0)}
+$('th').onclick=()=>{const r=document.documentElement,d=getComputedStyle(r).colorScheme=='dark';r.dataset.theme=d?'light':'dark'};
+const ctx=id=>$(id).getContext('2d');
+function dot(c,x,y,r,col){c.fillStyle=col;c.beginPath();c.arc(x,y,r,0,2*pi);c.fill()}
+function txt(c,s,x,y,col='#fff',sz=14){c.fillStyle=col;c.font='bold '+sz+'px Nunito,sans-serif';c.fillText(s,x,y)}
+function stars(c){c.fillStyle='#0b0a2a';c.fillRect(0,0,640,360);c.fillStyle='#ffffff66';for(let i=0;i<50;i++)c.fillRect((i*137)%640,(i*61)%360,1.5,1.5)}
+function sun(c,x,y,r=14){const g=c.createRadialGradient(x,y,2,x,y,r*2);g.addColorStop(0,'#fff6a0');g.addColorStop(.4,'#ffb703');g.addColorStop(1,'#ffb70000');c.fillStyle=g;c.beginPath();c.arc(x,y,r*2,0,2*pi);c.fill();dot(c,x,y,r*.7,'#ffd23f')}
+function kep(M,e){let E=M;for(let i=0;i<9;i++)E-=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));return E}
+
+/* ---- Intro ---- */
+const tl=[["Galileo (1564–1642)","Italian physicist. Recognised that all bodies fall with the same constant acceleration, irrespective of mass."],["Ptolemy (~2000 yrs ago)","Geocentric model: Earth at the centre, everything moves in circles, with circles moving on larger circles."],["Aryabhatta (5th c. A.D.)","Mentioned the more elegant heliocentric model, with the Sun at the centre and planets revolving around it."],["Copernicus (1473–1543)","Polish monk. A thousand years later he proposed a definitive model of planets in circles around a fixed Sun."],["Tycho Brahe (1546–1601)","Danish nobleman who spent his life recording planetary positions with the naked eye."],["Kepler (1571–1640)","Tycho’s assistant. Analysed the data and extracted three elegant laws, which enabled Newton’s leap to universal gravitation."]];
+tl.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t[0];b.onclick=()=>{[...$('tl').children].forEach(x=>x.classList.remove('on'));b.classList.add('on');$('tlTxt').textContent=t[1]};$('tl').appendChild(b)});
+$('tl').children[0].click();
+let geo=true,trail=[];
+$('mG').onclick=()=>{geo=true;trail=[]};$('mH').onclick=()=>{geo=false;trail=[]};
+function d0(t){const c=ctx('c0');stars(c);const w=.55,we=1,cx=320,cy=180;
+if(geo){const al=w*t,be=we*t;const px=cx+110*Math.cos(al)+45*Math.cos(be),py=cy+110*Math.sin(al)+45*Math.sin(be);
+c.strokeStyle='#ffffff33';c.beginPath();c.arc(cx,cy,110,0,2*pi);c.stroke();c.beginPath();c.arc(cx+110*Math.cos(al),cy+110*Math.sin(al),45,0,2*pi);c.stroke();
+trail.push([px,py]);if(trail.length>420)trail.shift();c.strokeStyle='#fff';c.beginPath();trail.forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.stroke();
+dot(c,cx,cy,16,'#3a86ff');txt(c,'Earth (centre)',cx-34,cy+34);dot(c,px,py,8,'#ff5470');txt(c,'Mars',px+10,py);
+sun(c,cx+150*Math.cos(.3*t),cy+150*Math.sin(.3*t),10);$('mTxt').innerHTML='<span>Everything circles the Earth, and Mars loops on an epicycle.</span>'}
+else{sun(c,cx,cy,16);c.strokeStyle='#ffffff33';[90,150].forEach(r=>{c.beginPath();c.arc(cx,cy,r,0,2*pi);c.stroke()});
+const ex=cx+90*Math.cos(we*t),ey=cy+90*Math.sin(we*t),mx=cx+150*Math.cos(w*t),my=cy+150*Math.sin(w*t);
+c.strokeStyle='#ffd23f88';c.beginPath();c.moveTo(ex,ey);c.lineTo(mx,my);c.stroke();dot(c,ex,ey,8,'#3a86ff');dot(c,mx,my,8,'#ff5470');txt(c,'Earth',ex+10,ey);txt(c,'Mars',mx+10,my);txt(c,'Sun',cx-12,cy+34);
+$('mTxt').innerHTML='<span>The Sun is at the centre. The looping path of Mars seen from Earth is just Earth overtaking it.</span>'}}
+
+/* ---- Law 1 ---- */
+let ang=pi*.8,drag=false;const A1=205;
+function g1(){const e=+$('e1').value,a=A1,b=a*Math.sqrt(1-e*e),cc=a*e;return{e,a,b,cc}}
+const c1=$('c1');function pt(ev){const r=c1.getBoundingClientRect(),x=(ev.clientX-r.left)*640/r.width-320,y=(ev.clientY-r.top)*360/r.height-180,{a,b}=g1();ang=Math.atan2(y/b,x/a)}
+c1.onpointerdown=e=>{drag=true;pt(e);c1.setPointerCapture(e.pointerId)};c1.onpointermove=e=>{if(drag)pt(e)};c1.onpointerup=()=>drag=false;
+function d1(){const c=ctx('c1');stars(c);const{e,a,b,cc}=g1();$('e1v').textContent=e.toFixed(2);if($('p1').checked&&!drag)ang+=.012;
+c.strokeStyle='#8ecae6';c.lineWidth=2.5;c.beginPath();c.ellipse(320,180,a,b,0,0,2*pi);c.stroke();c.lineWidth=1;
+const f1=320-cc,f2=320+cc,px=320+a*Math.cos(ang),py=180+b*Math.sin(ang);
+c.setLineDash([4,4]);c.strokeStyle='#ffffff55';c.beginPath();c.moveTo(320-a,180);c.lineTo(320+a,180);c.stroke();c.setLineDash([]);
+c.strokeStyle='#ff9f1c';c.beginPath();c.moveTo(f1,180);c.lineTo(px,py);c.stroke();c.strokeStyle='#2fe0d0';c.beginPath();c.moveTo(f2,180);c.lineTo(px,py);c.stroke();
+sun(c,f1,180,12);dot(c,f2,180,4,'#fff');dot(c,320,180,3,'#aaa');dot(c,px,py,8,'#ff5470');
+txt(c,'F₁ (Sun)',f1-22,205);txt(c,'F₂',f2-6,205);txt(c,'O',316,198,'#aaa');txt(c,'P (perihelion)',320-a-4,170,'#ff9f1c',12);txt(c,'A (aphelion)',320+a-70,170,'#2fe0d0',12);txt(c,'Planet',px+10,py-8);
+const u=5/a,d1=Math.hypot(px-f1,py-180)*u,d2=Math.hypot(px-f2,py-180)*u;
+$('d1').textContent='d₁ = '+d1.toFixed(2)+' units';$('d2').textContent='d₂ = '+d2.toFixed(2)+' units';$('ds').textContent='d₁ + d₂ = '+(d1+d2).toFixed(2)+' = 2a (a = 5)'}
+
+/* ---- Law 2 ---- */
+let M2=0,pz=false;$('pz2').onclick=()=>{pz=!pz;$('pz2').textContent=pz?'Play':'Pause'};
+function d2(dt){const c=ctx('c2');stars(c);const e=+$('e2').value,a=200,b=a*Math.sqrt(1-e*e),cx=320,sx=cx+a*e,sy=180;$('e2v').textContent=e.toFixed(2);
+if(!pz)M2+=dt*.8*$('sp2').value;
+const P=M=>{const E=kep(M,e);return[sx+a*(Math.cos(E)-e),sy-b*Math.sin(E)]},D=pi/6;
+for(let k=0;k<12;k++){c.fillStyle='hsla('+(k*30)+',85%,60%,'+((Math.floor((M2%(2*pi))/D)==k)?.85:.4)+')';c.beginPath();c.moveTo(sx,sy);for(let j=0;j<=10;j++){const p=P((k+j/10)*D);c.lineTo(p[0],p[1])}c.closePath();c.fill()}
+c.strokeStyle='#fff';c.lineWidth=2;c.beginPath();c.ellipse(cx,sy,a,b,0,0,2*pi);c.stroke();c.lineWidth=1;
+sun(c,sx,sy,12);const p=P(M2),r=Math.hypot(p[0]-sx,p[1]-sy);c.strokeStyle='#fff';c.beginPath();c.moveTo(sx,sy);c.lineTo(p[0],p[1]);c.stroke();dot(c,p[0],p[1],8,'#fff');
+const A=a/5,rr=r/A,v=Math.sqrt(Math.max(0,2/rr*5/5*5/5*1)/1);const vr=Math.sqrt(10/rr-1);
+const al=e&&1,vl=22+vr*14,tx=-(p[1]-sy),ty=(p[0]-sx);const n=Math.hypot(tx,ty);c.strokeStyle='#2fe0d0';c.lineWidth=3;c.beginPath();c.moveTo(p[0],p[1]);c.lineTo(p[0]+tx/n*vl*(1),p[1]+ty/n*vl*(1));c.stroke();c.lineWidth=1;txt(c,'v',p[0]+tx/n*vl+6,p[1]+ty/n*vl,'#2fe0d0');
+txt(c,'Perihelion: fast',sx+a*(1-e)-70,sy+26,'#ffd23f',12);txt(c,'Aphelion: slow',cx-a-4,sy-12,'#ffd23f',12);
+$('r2').textContent='r = '+rr.toFixed(2)+' units';$('v2').textContent='speed = '+vr.toFixed(2)+' × mean speed';
+const ar=.5*5*5*Math.sqrt(1-e*e)*D;$('a2').textContent='Each wedge area = '+ar.toFixed(2)+' sq. units (all 12 equal)'}
+
+/* ---- Law 3 ---- */
+const pl=[["Mercury",.387,'#b0b0b0'],["Venus",.723,'#ffd6a5'],["Earth",1,'#3a86ff'],["Mars",1.524,'#ff5470']];let t3=0;
+function d3(dt){const c=ctx('c3');stars(c);t3+=dt*$('t3').value*1.2;const cx=320,cy=180,S=30,ca=+$('a3').value;sun(c,cx,cy,10);
+const dr=(n,a,col)=>{c.strokeStyle='#ffffff33';c.beginPath();c.arc(cx,cy,a*S,0,2*pi);c.stroke();const th=2*pi*t3/Math.pow(a,1.5);dot(c,cx+a*S*Math.cos(th),cy-a*S*Math.sin(th),n=='Your planet'?8:5,col);if(n!='Mercury'&&n!='Venus')txt(c,n,cx+a*S*Math.cos(th)+8,cy-a*S*Math.sin(th),col,12)};
+pl.forEach(p=>dr(p[0],p[1],p[2]));dr('Your planet',ca,'#2fe0d0');txt(c,'1 year = '+(1/1.2).toFixed(1)+' s at 1× speed (Earth period)',12,350,'#ffffffaa',12);
+const T=Math.pow(ca,1.5);$('o1').textContent='T = a^1.5 = '+T.toFixed(2)+' years';$('o2').textContent='T² = '+(T*T).toFixed(2)+', a³ = '+Math.pow(ca,3).toFixed(2);$('o3').textContent='T²/a³ = '+(T*T/Math.pow(ca,3)).toFixed(2)+' (always 1 in years and AU)'}
+
+/* ---- loop ---- */
+let last=0,t0=0;function loop(ts){const dt=Math.min(.05,(ts-last)/1000||0);last=ts;t0+=dt;
+if(cur==0)d0(t0);if(cur==1)d1();if(cur==2)d2(dt);if(cur==3)d3(dt);requestAnimationFrame(loop)}
+
+/* ---- Practice ---- */
+const PQ=[["From Table 7.1, Mars has a = 22.8 × 10¹⁰ m and T = 1.88 years. Find T²/a³ in y² m⁻³ and comment.","T² = (1.88)² = 3.534 y². a³ = (22.8 × 10¹⁰)³ = 1.185 × 10³⁴ m³ (since 22.8³ ≈ 11852 ≈ 1.185 × 10⁴ and (10¹⁰)³ = 10³⁰). T²/a³ = 3.534 / (1.185 × 10³⁴) ≈ <b>2.98 × 10⁻³⁴ y² m⁻³</b>. This matches the table, and it is nearly the same for every planet."],
+["A planet’s orbit has a semi-major axis 4 times that of Earth’s. Find its time period in years.","T²/a³ is the same for Earth and the planet. (T/1)² = (4/1)³ = 64, so T = <b>8 years</b>."],
+["A planet takes 27 years to orbit the Sun. Find its semi-major axis in AU.","a³ = T² = 27² = 729 (T in years, a in AU). So a = <b>9 AU</b>."],
+["At perihelion a planet is 1.47 × 10¹¹ m from the Sun and moves at 30.3 km/s. At aphelion it is 1.52 × 10¹¹ m away. Find its speed at aphelion.","Angular momentum is conserved: vₚrₚ = vₐrₐ. vₐ = 30.3 × 1.47 / 1.52 ≈ <b>29.3 km/s</b>. It is slower at aphelion, as the law of areas says."],
+["An ellipse has semi-major axis 5 AU and the perihelion distance is 3 AU. Find the aphelion distance and the flatness e. What is the sum of the distances from the two foci to any point on the orbit?","rₚ + rₐ = 2a, so rₐ = 10 − 3 = <b>7 AU</b>. Since rₚ = a(1 − e), 3 = 5(1 − e), so <b>e = 0.4</b>. By the law of orbits, F₁T + F₂T = 2a = <b>10 AU</b>."]];
+PQ.forEach((q,i)=>{const d=document.createElement('div');d.className='card';d.innerHTML='<b>Q'+(i+1)+'.</b> '+q[0]+'<details><summary>Show solution</summary><p>'+q[1]+'</p></details>';$('pq').appendChild(d)});
+
+/* ---- Quiz ---- */
+const Q=[["Where is the Sun located in a planet’s elliptical orbit?",["At the centre of the ellipse","At one focus","At the aphelion","At the perihelion"],1,"Law of orbits: the Sun sits at one of the two foci."],
+["At which point of its orbit does a planet move fastest?",["Aphelion","Perihelion","Ends of the minor axis","Speed is constant"],1,"Nearer the Sun means faster, because the area swept per unit time is constant."],
+["The law of areas follows from conservation of which quantity?",["Linear momentum","Kinetic energy","Angular momentum","Mass"],2,"Gravity is a central force, so torque is zero and L is constant, giving ΔA/Δt = L/2m."],
+["If a planet’s semi-major axis becomes 4 times, its period becomes:",["2 times","4 times","8 times","16 times"],2,"T² ∝ a³, so T ∝ a^1.5 = 4^1.5 = 8."],
+["Whose observational data did Kepler analyse to find his laws?",["Galileo","Ptolemy","Tycho Brahe","Copernicus"],2,"Tycho Brahe recorded naked-eye planetary positions; Kepler was his assistant."]];
+let qi=0,sc=0,sk=0,done=false;
+function showQ(){done=false;const q=Q[qi];$('qq').textContent=q[0];$('qo').innerHTML='';$('qf').textContent='';$('qx').style.display='none';$('qn').textContent='Q'+(qi+1)+'/5';$('qb').style.width=(qi/5*100)+'%';
+q[1].forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>pick(i,b);$('qo').appendChild(b)})}
+function pick(i,b){if(done)return;done=true;const q=Q[qi],bs=$('qo').children;if(i==q[2]){sk++;sc+=10+(sk>1?5:0);b.classList.add('ok');$('qf').textContent='✅ Correct! '+q[3]}else{sk=0;b.classList.add('no');bs[q[2]].classList.add('ok');$('qf').textContent='❌ Not quite. '+q[3]}
+$('qs').textContent='Score '+sc;$('qst').textContent='Streak '+sk+' 🔥';$('qx').style.display='inline-block';$('qx').textContent=qi==4?'See result':'Next'}
+$('qx').onclick=()=>{qi++;if(qi<5)return showQ();$('qb').style.width='100%';const m=sc>=45?['🏆','Kepler-level mastery!']:sc>=30?['🚀','Great orbit! Revise the weak spots.']:['🌱','Keep exploring. Revisit the laws and retry.'];
+$('qq').textContent='Quest complete';$('qo').innerHTML='<div class="big">'+m[0]+'</div><p style="text-align:center"><b>'+sc+' points</b> (max 70 with streak bonuses). '+m[1]+'</p>';$('qf').textContent='';$('qx').textContent='Play again';$('qx').onclick=()=>{qi=0;sc=0;sk=0;$('qs').textContent='Score 0';$('qst').textContent='Streak 0 🔥';$('qx').onclick=nxt;showQ()}};
+const nxt=$('qx').onclick;showQ();
+go(0);requestAnimationFrame(loop);
+</script></body></html>
